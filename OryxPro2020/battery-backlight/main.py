@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-from configparser import ConfigParser
+import json
 import os
 
 from battery import Battery
+from common import read_file
 from keyboard_backlight import KeyboardBacklight
 
 CONFIGURATION_PATH = '/etc/battery-backlight.conf'
@@ -10,9 +11,7 @@ CONFIGURATION_PATH = '/etc/battery-backlight.conf'
 
 def read_configurations():
     if os.path.exists(CONFIGURATION_PATH):
-        config_parser = ConfigParser()
-        config_parser.read_file(CONFIGURATION_PATH)
-        return config_parser
+        return json.loads(read_file(CONFIGURATION_PATH))
     return {}
 
 
