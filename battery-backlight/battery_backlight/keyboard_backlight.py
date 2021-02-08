@@ -13,6 +13,17 @@ def get_laptop_model() -> str:
 class KeyboardBacklight:
     BACKLIGHT_DEVICE_PATH = "/sys/class/leds/system76_acpi::kbd_backlight"
 
+    MODEL_BACKLIGHT_PATH_MAPPING = {
+        'Oryx Pro': {
+            'brightness_path': '/sys/class/leds/system76_acpi::kbd_backlight/brightness',
+            'brightness_color': '/sys/class/leds/system76_acpi::kbd_backlight/color',
+        },
+        'Serval WS': {
+            'brightness_path': '/sys/class/leds/system76::kbd_backlight/brightness',
+            'brightness_color': '/sys/class/leds/system76::kbd_backlight/color_left',
+        },
+    }
+
     _MAX_VALUE = 255
     _MIN_VALUE = 15
 
