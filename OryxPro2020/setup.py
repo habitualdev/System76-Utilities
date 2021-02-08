@@ -7,6 +7,10 @@ setup(
     url='#',
     author='Jean-François Labonté',
     author_email='grimsleepless@protonmail.com',
+    include_package_data=True,
     license='Apache License 2.0',
-    packages=['battery-backlight'],
+    packages=['battery_backlight'],
+    entry_points={
+        'console_scripts': ['battery-backlight=battery_backlight.__main__:main']
+    },
 )
