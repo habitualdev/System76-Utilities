@@ -16,7 +16,7 @@ class KeyboardBacklight:
         self.brightness_color = f"{self.BACKLIGHT_DEVICE_PATH}/color"
         self.mode = mode
         self.mode_functions_mapping = {
-            "breath": self.breath,
+            "breathe": self.breathe,
             "static": self.static,
         }
         self.battery_handler = battery_handler
@@ -28,7 +28,7 @@ class KeyboardBacklight:
                 battery_level=self.battery_handler.get_battery_level()
             )
 
-    def breath(self):
+    def breathe(self):
         self._ramp_up()
         self._ramp_down()
 

@@ -17,7 +17,7 @@ battery-backlight:
   * `sudo systemctl enable battery-backlight.service`
 * configurations:
   * mode:
-	* breath
+	* breathe
 		* Breathing effect
 	* static
 		* Solid Light
