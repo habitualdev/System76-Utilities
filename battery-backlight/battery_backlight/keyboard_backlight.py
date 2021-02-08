@@ -28,8 +28,19 @@ class KeyboardBacklight:
     _MIN_VALUE = 15
 
     def __init__(self, mode: str, battery_handler: Battery):
-        self.brightness_path = f"{self.BACKLIGHT_DEVICE_PATH}/brightness"
-        self.brightness_color = f"{self.BACKLIGHT_DEVICE_PATH}/color"
+        laptop_model = get_laptop_model()
+        keyboard_backlight_paths = self.MODEL_BACKLIGHT_PATH_MAPPING.get(
+            laptop_model,
+        )
+
+        if keyboard_backlight_paths is None:
+            raise RuntimeError(
+                f"{laptop_model} is not supported by this script"
+            )
+
+        self.brightness_path = keyboard_backlight_paths['brightness_path']
+        self.brightness_color = keyboard_backlight_paths['brightness_color']
+
         self.mode = mode
         self.mode_functions_mapping = {
             "breath": self.breath,
