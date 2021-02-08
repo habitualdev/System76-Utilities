@@ -1,8 +1,13 @@
+import subprocess
 from time import sleep
 
 from battery_backlight.battery import Battery
 from battery_backlight.colors import GREEN, YELLOW, RED
 from battery_backlight.common import read_file, write_file
+
+
+def get_laptop_model() -> str:
+    return subprocess.check_output(['sudo', 'dmidecode', '-s', 'system-product-name']).decode('utf-8').strip()
 
 
 class KeyboardBacklight:
