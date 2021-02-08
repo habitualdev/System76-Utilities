@@ -38,7 +38,7 @@ class KeyboardBacklight:
         sleep(0.2)
 
     def change_color(self, battery_level):
-        if battery_level <= 20:
+        if battery_level <= 25:
             self._set_color(RED)
         elif battery_level <= 50:
             self._set_color(YELLOW)
