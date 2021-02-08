@@ -2,9 +2,9 @@
 import json
 import os
 
-from battery import Battery
-from common import read_file
-from keyboard_backlight import KeyboardBacklight
+from battery_backlight.battery import Battery
+from battery_backlight.common import read_file
+from battery_backlight.keyboard_backlight import KeyboardBacklight
 
 CONFIGURATION_PATH = '/etc/battery-backlight.conf'
 

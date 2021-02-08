@@ -1,4 +1,4 @@
-from common import read_file
+from battery_backlight.common import read_file
 
 
 class Battery:

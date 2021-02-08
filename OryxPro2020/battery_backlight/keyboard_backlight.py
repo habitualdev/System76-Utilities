@@ -1,8 +1,8 @@
 from time import sleep
 
-from battery import Battery
-from colors import GREEN, YELLOW, RED
-from common import read_file, write_file
+from battery_backlight.battery import Battery
+from battery_backlight.colors import GREEN, YELLOW, RED
+from battery_backlight.common import read_file, write_file
 
 
 class KeyboardBacklight:
