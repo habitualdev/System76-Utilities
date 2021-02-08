@@ -1,0 +1,9 @@
+[Unit]
+Description=Change color of your keyboard depending on battery level
+
+[Service]
+ExecStart=/usr/local/bin/battery-backlight
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
