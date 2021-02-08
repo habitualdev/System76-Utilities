@@ -1,14 +1,14 @@
 from time import sleep
 
 from battery import Battery
-from colors import GREEN, YELLOW, GREEN
+from colors import GREEN, YELLOW, RED
 from common import read_file, write_file
 
 
 class KeyboardBacklight:
     BACKLIGHT_DEVICE_PATH = "/sys/class/leds/system76_acpi::kbd_backlight"
 
-    _MAX_VALUE = 155
+    _MAX_VALUE = 255
     _MIN_VALUE = 15
 
     def __init__(self, mode: str, battery_handler: Battery):
@@ -61,7 +61,7 @@ class KeyboardBacklight:
         write_file(path=self.brightness_color, value=color)
 
     def _set_full_brightness(self):
-        write_file(path=self.brightness_path, value=self._MAX_VALUE)
+        write_file(path=self.brightness_path, value=str(self._MAX_VALUE))
 
     def _set_brightness(self, value: int):
         write_file(path=self.brightness_path, value=str(value))
