@@ -23,6 +23,7 @@ def main():
         mode=config.get('mode', 'breath'),
         battery_handler=battery
     )
+    print("Starting Service")
     kb_backlight.run()
 
 
