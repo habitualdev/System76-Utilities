@@ -1,8 +1,28 @@
 # System76-Utilities
 
-- Battery Charge Scripts - Does some simple changes to the system config to change the max percentage the battery charges to. For battery health
+Some utilities for System76 computer owners.
 
-- OryxPro2020 - Scripts confirmed working for the oryxp6
+Tested on:
+
+* oryp6
+
+
+## Tools
+
+battery-backlight: 
+* Make your keyboard change color depending on the battery level
+* install:
+  * `make install-battery-backlight`
+  * `sudo systemctl start battery-backlight.service`
+  * `sudo systemctl enable battery-backlight.service`
+* configurations:
+  * mode:
+	* breath
+		* Breathing effect
+	* static
+		* Solid Light
+
+- Battery Charge Scripts - Does some simple changes to the system config to change the max percentage the battery charges to. For battery health
 
 ----
 
