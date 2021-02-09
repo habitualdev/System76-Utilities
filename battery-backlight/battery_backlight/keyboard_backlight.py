@@ -1,3 +1,4 @@
+import subprocess
 from time import sleep
 
 from battery_backlight.battery import Battery
@@ -5,15 +6,41 @@ from battery_backlight.colors import GREEN, YELLOW, RED
 from battery_backlight.common import read_file, write_file
 
 
+def get_laptop_model() -> str:
+    return subprocess.check_output(['sudo', 'dmidecode', '-s', 'system-product-name']).decode('utf-8').strip()
+
+
 class KeyboardBacklight:
     BACKLIGHT_DEVICE_PATH = "/sys/class/leds/system76_acpi::kbd_backlight"
+
+    MODEL_BACKLIGHT_PATH_MAPPING = {
+        'Oryx Pro': {
+            'brightness_path': '/sys/class/leds/system76_acpi::kbd_backlight/brightness',
+            'brightness_color': '/sys/class/leds/system76_acpi::kbd_backlight/color',
+        },
+        'Serval WS': {
+            'brightness_path': '/sys/class/leds/system76::kbd_backlight/brightness',
+            'brightness_color': '/sys/class/leds/system76::kbd_backlight/color_left',
+        },
+    }
 
     _MAX_VALUE = 255
     _MIN_VALUE = 15
 
     def __init__(self, mode: str, battery_handler: Battery):
-        self.brightness_path = f"{self.BACKLIGHT_DEVICE_PATH}/brightness"
-        self.brightness_color = f"{self.BACKLIGHT_DEVICE_PATH}/color"
+        laptop_model = get_laptop_model()
+        keyboard_backlight_paths = self.MODEL_BACKLIGHT_PATH_MAPPING.get(
+            laptop_model,
+        )
+
+        if keyboard_backlight_paths is None:
+            raise RuntimeError(
+                f"{laptop_model} is not supported by this script"
+            )
+
+        self.brightness_path = keyboard_backlight_paths['brightness_path']
+        self.brightness_color = keyboard_backlight_paths['brightness_color']
+
         self.mode = mode
         self.mode_functions_mapping = {
             "breathe": self.breathe,
@@ -40,7 +67,7 @@ class KeyboardBacklight:
     def change_color(self, battery_level):
         if battery_level <= 25:
             self._set_color(RED)
-        elif battery_level <= 50:
+        elif battery_level < 50:
             self._set_color(YELLOW)
         else:
             self._set_color(GREEN)

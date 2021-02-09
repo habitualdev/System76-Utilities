@@ -8,4 +8,7 @@ install: install_conf
 	sudo systemctl daemon-reload
 
 install_conf:
-	sudo cp configs/battery-backlight.conf /etc/
+	if [[ ! -f /etc/battery-backlight.conf ]]; \
+	then \
+		sudo cp configs/battery-backlight.conf /etc/; \
+	fi
