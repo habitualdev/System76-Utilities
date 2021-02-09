@@ -1,5 +1,6 @@
 import subprocess
 from time import sleep
+from typing import Dict
 
 from battery_backlight.battery import Battery
 from battery_backlight.colors import GREEN, YELLOW, RED
@@ -24,10 +25,7 @@ class KeyboardBacklight:
         },
     }
 
-    _MAX_VALUE = 255
-    _MIN_VALUE = 15
-
-    def __init__(self, mode: str, battery_handler: Battery):
+    def __init__(self, context: Dict, battery_handler: Battery):
         laptop_model = get_laptop_model()
         keyboard_backlight_paths = self.MODEL_BACKLIGHT_PATH_MAPPING.get(
             laptop_model,
@@ -41,11 +39,18 @@ class KeyboardBacklight:
         self.brightness_path = keyboard_backlight_paths['brightness_path']
         self.brightness_color = keyboard_backlight_paths['brightness_color']
 
-        self.mode = mode
+        self.brightness_max_value = context.get('brightness_max_value', 255)
+        self.brightness_min_value = context.get('brightness_min_value', 15)
+
+        self.red_threshold = context.get('red_threshold', 25)
+        self.yellow_threshold = context.get('yellow_threshold', 50)
+
+        self.mode = context.get('mode', 'breath')
         self.mode_functions_mapping = {
-            "breathe": self.breathe,
+            "breath": self.breath,
             "static": self.static,
         }
+
         self.battery_handler = battery_handler
 
     def run(self):
@@ -55,32 +60,32 @@ class KeyboardBacklight:
                 battery_level=self.battery_handler.get_battery_level()
             )
 
-    def breathe(self):
+    def breath(self):
         self._ramp_up()
         self._ramp_down()
 
     def static(self):
-        if self._read_brightness() != self._MAX_VALUE:
+        if self._read_brightness() != self.brightness_max_value:
             self._set_full_brightness()
         sleep(0.2)
 
     def change_color(self, battery_level):
-        if battery_level <= 25:
+        if battery_level < self.red_threshold:
             self._set_color(RED)
-        elif battery_level < 50:
+        elif battery_level < self.yellow_threshold:
             self._set_color(YELLOW)
         else:
             self._set_color(GREEN)
 
     def _ramp_up(self):
         current_brightness = self._read_brightness()
-        while current_brightness < self._MAX_VALUE:
+        while current_brightness < self.brightness_max_value:
             self._set_brightness(value=current_brightness)
             current_brightness += 1
 
     def _ramp_down(self):
         current_brightness = self._read_brightness()
-        while current_brightness > self._MIN_VALUE:
+        while current_brightness > self.brightness_min_value:
             self._set_brightness(value=current_brightness)
             current_brightness -= 1
 
@@ -88,7 +93,8 @@ class KeyboardBacklight:
         write_file(path=self.brightness_color, value=color)
 
     def _set_full_brightness(self):
-        write_file(path=self.brightness_path, value=str(self._MAX_VALUE))
+        write_file(path=self.brightness_path,
+                   value=str(self.brightness_max_value))
 
     def _set_brightness(self, value: int):
         write_file(path=self.brightness_path, value=str(value))

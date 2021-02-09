@@ -9,6 +9,7 @@ Tested on:
 
 ## Tools
 
+![battery_backlight CI status](https://github.com/JeffLabonte/System76-Utilities/workflows/CI/badge.svg)
 battery-backlight: 
 * Make your keyboard change color depending on the battery level
 * install:
@@ -17,7 +18,7 @@ battery-backlight:
   * `sudo systemctl enable battery-backlight.service`
 * configurations:
   * mode:
-	* breathe
+	* breath
 		* Breathing effect
 	* static
 		* Solid Light
