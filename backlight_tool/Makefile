@@ -25,3 +25,6 @@ venv:
 	then \
 		python3 -m venv .venv; \
 	fi
+
+tests:
+	py.test battery_backlight/tests/
