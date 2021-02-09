@@ -1,4 +1,4 @@
 SHELL := /bin/bash
 
 install-battery-backlight:
-	cd battery-backlight && make install
+	cd backlight_tool && make install
