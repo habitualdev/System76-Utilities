@@ -47,7 +47,7 @@ def main():
 
     battery = Battery()
     kb_backlight = KeyboardBacklight(
-        mode=config.get('mode', 'breathe'),
+        context=config,
         battery_handler=battery
     )
     print("Starting Service")
