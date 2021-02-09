@@ -12,3 +12,7 @@ install_conf:
 	then \
 		sudo cp configs/battery-backlight.conf /etc/; \
 	fi
+
+update_config:
+	sudo cp configs/battery-backlight.conf /etc/
+
