@@ -16,3 +16,12 @@ install_conf:
 update_config:
 	sudo cp configs/battery-backlight.conf /etc/
 
+
+install_dev: venv
+	.venv/bin/pip install -r requirements.test.txt
+
+venv:
+	if [[ ! -d .venv/ ]]; \
+	then \
+		python3 -m venv .venv; \
+	fi
