@@ -24,7 +24,8 @@ battery-backlight:
 		* Solid Light
 * (battery-backlight.sh - bash script that does the same as above. However, requires you creating a service, or manually running in the background.)
 
-- Battery Charge Scripts - Does some simple changes to the system config to change the max percentage the battery charges to. For battery health
+- Legacy Utility Scripts
+  * Scripts that have been superseded by more robust utilities, or now have built in functionality/native binaries
 
 ----
 
